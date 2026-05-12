@@ -2,7 +2,5 @@
   "appId": "com.cybercalc.app",
   "appName": "CyberCalc",
   "webDir": "dist",
-  "server": {
-    "androidScheme": "https"
-  }
+  "bundledWebRuntime": false
 }
