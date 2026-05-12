@@ -17,13 +17,18 @@ jobs:
           distribution: 'temurin'
 
       - name: Install Dependencies
-        run: npm install
+        run: |
+          npm install
+          # Принудительно ставим Capacitor CLI, чтобы Гитхаб его точно видел
+          npm install @capacitor/cli @capacitor/core @capacitor/android
 
       - name: Build Web Project
         run: npm run build
 
       - name: Sync Capacitor
-        run: npx cap sync android
+        run: |
+          # Проверяем, есть ли конфиг, и синхронизируем
+          npx capacitor sync android
 
       - name: Build APK with Gradle
         run: |
