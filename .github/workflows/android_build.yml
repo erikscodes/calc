@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: set up JDK 17
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
@@ -19,20 +19,21 @@ jobs:
       - name: Install Dependencies
         run: |
           npm install
-          # Принудительно ставим Capacitor CLI, чтобы Гитхаб его точно видел
           npm install @capacitor/cli @capacitor/core @capacitor/android
 
       - name: Build Web Project
         run: npm run build
 
-      - name: Sync Capacitor
+      - name: Generate Android Project
         run: |
-          # Проверяем, есть ли конфиг, и синхронизируем
-          npx capacitor sync android
+          # Если папки нет, создаем её. Если есть (на всякий случай), обновляем.
+          npx cap add android || npx cap sync android
+          npx cap sync android
 
       - name: Build APK with Gradle
         run: |
           cd android
+          # Даем права на запуск Gradle
           chmod +x gradlew
           ./gradlew assembleDebug
 
